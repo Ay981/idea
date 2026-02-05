@@ -23,4 +23,3 @@ test('authenticated user can view the homepage', function () {
 
     $response->assertOk();
 });
-});
