@@ -1,0 +1,27 @@
+<nav class="border-b border-border px-6">
+  <div class="max-w-7xl mx-auto h-16 flex items-center justify-between">
+    <div>
+      <a href="/">
+        <img src="/images/logo.png" alt="" width="100" alt="Idea logo">
+      </a>
+    </div>
+
+  <div class="flex gap-x-5 items-center">
+    @guest
+    <a href="/login">Sign In</a>
+    <a href="/register" class="btn">Create account</a>
+    @endguest
+
+    @auth
+<form method = "post" action="/logout" >
+    @csrf
+    <button>log out</button>
+    
+
+</form>    
+
+@endauth
+   
+  </div>
+</div>
+</nav>
