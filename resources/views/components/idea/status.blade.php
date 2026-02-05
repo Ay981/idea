@@ -7,7 +7,7 @@ if ($status === 'pending') {
     $classes .= ' bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
 }
 
-if ($status === 'in progress') {
+if ($status === 'inprogress') {
     $classes .= ' bg-blue-500/10 text-blue-500 border-blue-500/20';
 }
 

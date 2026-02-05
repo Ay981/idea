@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateIdeaRequest;
 use App\Ideastatus;
 use App\Models\Idea;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +18,16 @@ class IdeaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
+        // If a status filter is provided but it's not one of the enum values,
+        // redirect back to the unfiltered listing (All).
+        if ($request->filled('status')) {
+            $allowed = collect(Ideastatus::cases())->map(fn ($s) => $s->value)->all();
+            if (! in_array($request->status, $allowed, true)) {
+                return redirect()->to('/ideas');
+            }
+        }
         $ideas = Auth::user()
             ->ideas()
             ->when($request->status, fn ($query, $status) => $query->where('status', $status))
