@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Illuminate\Validation\Rule;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 
 class LoginController extends Controller
 {
-    public function create(){
-        return view("auth.login");
+    public function create()
+    {
+        return view('auth.login');
     }
-    
+
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
@@ -28,11 +30,12 @@ class LoginController extends Controller
 
         return back()->withErrors(['email' => 'The provided credentials do not match our records.'])->onlyInput('email');
     }
+
     public function destroy()
     {
         Auth::logout();
-        //redirect to login
+
+        // redirect to login
         return redirect()->intended('/login');
     }
- 
 }

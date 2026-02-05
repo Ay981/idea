@@ -1,7 +1,8 @@
 <?php
 
 namespace Database\Factories;
-//import users
+
+// import users
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
