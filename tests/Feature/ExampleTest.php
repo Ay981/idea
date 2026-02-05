@@ -5,6 +5,22 @@ test('the application returns a successful response', function () {
         $response = $this->get('/');
 
         // Allow either a direct 200 response or a 302 redirect (e.g. to login)
-        $status = $response->getStatusCode();
-        $this->assertTrue(in_array($status, [200, 302], true));
+        // This test will be split into two separate cases
+});
+
+use App\Models\User;
+
+test('guest is redirected to login', function () {
+    $response = $this->get('/');
+
+    $response->assertRedirect('/login');
+});
+
+test('authenticated user can view the homepage', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get('/');
+
+    $response->assertOk();
+});
 });
