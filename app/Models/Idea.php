@@ -9,9 +9,11 @@ use Database\Factories\IdeaFactory;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Model\Steps;
-use Illuminate\Database\Eloquent\Model\User;
+
+use App\Models\Steps;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Idea extends Model
 {
@@ -28,13 +30,12 @@ class Idea extends Model
 
     ];
 
-    public function User(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-
     }
 
-    public function Steps(): HasMany
+    public function steps(): HasMany
     {
         return $this->hasMany(Steps::class);
     }

@@ -1,6 +1,9 @@
 <?php
 
+
 namespace Database\Factories;
+
+use App\Models\Idea;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,10 +20,9 @@ class StepsFactory extends Factory
     public function definition(): array
     {
         return [
-            'idea_id' => IdeaFactory::factory(),
-            'descrition' => fake()->sentence(),
+            'idea_id' => Idea::factory(),
+            'description' => fake()->sentence(),
             'completed' => false,
-            //
         ];
     }
 }
