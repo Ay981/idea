@@ -25,8 +25,8 @@
         @forelse($ideas as $idea)
           <x-card>
             <h3 class="text-foreground text-lg">{{ $idea->title }}</h3>
-            <x-idea.status status="{{ $idea->status->label() }}">
-              <h3>{{ $idea->status->label() }}</h3>
+            <x-idea.status status="{{ $idea->status->value }}">
+              {{ $idea->status->label() }}
             </x-idea.status>
             <div class="line-clamp-3 mt-4"> <p>{{ $idea->text }}</p> </div>
             <p class="mt-5">{{ $idea->created_at->diffForHumans() }}</p>

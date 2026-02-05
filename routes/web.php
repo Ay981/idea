@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/ideas');
 
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('login')->middleware('guest');
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register')->middleware('guest');
 
 Route::get('/ideas', [IdeaController::class, 'index'])->middleware('auth');
 

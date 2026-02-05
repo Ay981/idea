@@ -8,5 +8,5 @@ use App\Models\Steps;
 it('belongs to an idea', function () {
     $step = Steps::factory()->create();
 
-    expect($step->Idea)->toBeInstanceOf(Idea::class);
+    expect($step->idea)->toBeInstanceOf(Idea::class);
 });
