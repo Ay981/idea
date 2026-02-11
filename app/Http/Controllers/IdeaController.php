@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreIdeaRequest;
 use App\Http\Requests\UpdateIdeaRequest;
 use App\Ideastatus;
+
 use App\Models\Idea;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -18,36 +19,27 @@ class IdeaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request): View
     {
-        // If a status filter is provided but it's not one of the enum values,
-        // redirect back to the unfiltered listing (All).
-        if ($request->filled('status')) {
-            $allowed = collect(Ideastatus::cases())->map(fn ($s) => $s->value)->all();
-            if (! in_array($request->status, $allowed, true)) {
-                return redirect()->to('/ideas');
-            }
+        $user = Auth::user();
+        $status = $request->status;
+
+        if (! in_array($status, Ideastatus::values(), true)) {
+            $status = null;
         }
-        $ideas = Auth::user()
+
+        $ideas = $user
             ->ideas()
-            ->when($request->status, fn ($query, $status) => $query->where('status', $status))
+            ->when(
+                $status !== null,
+                static fn ($query) => $query->where('status', $status),
+            )
+            ->latest()
             ->get();
-
-        // select status, count(*) from ideas group by status
-        $counts = Auth::user()->ideas()
-            ->selectRaw('status, count(*) as count')
-            ->groupBy('status')
-            ->pluck('count', 'status');
-
-        $statusCounts = collect(Ideastatus::cases())
-            ->mapWithKeys(fn ($status) => [
-                $status->value => $counts->get($status->value, 0),
-            ])
-            ->put('all', Auth::user()->ideas()->count());
 
         return view('idea.index', [
             'ideas' => $ideas,
-            'statusCounts' => $statusCounts,
+            'statusCounts' => Idea::statusCounts($user),
         ]);
     }
 
@@ -62,17 +54,29 @@ class IdeaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreIdeaRequest $request): void
-    {
-        //
-    }
+    public function store(StoreIdeaRequest $request)
+{
+  $idea= Auth::user()->ideas()->create($request->safe()->except('steps', 'image'));
+    $idea->steps()->createMany(
+        collect($request->validated('steps', []))
+            ->map(fn ($step) => ['description' => $step, 'completed' => false])
+            ->all()
+    );
+    $imagepath = $request->image?->store('ideas', 'public');
+    $idea->update(['path_to_image' => $imagepath]);
+      
+    return redirect()->to('/ideas');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Idea $idea): void
+}
+    public function show(Idea $idea): View
     {
-        //
+        if ($idea->user_id !== Auth::id()) {
+            abort(404);
+        }
+
+        return view('idea.show', [
+            'idea' => $idea,
+        ]);
     }
 
     /**
@@ -94,8 +98,14 @@ class IdeaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Idea $idea): void
+    public function destroy(Idea $idea): RedirectResponse
     {
-        //
+        if ($idea->user_id !== Auth::id()) {
+            abort(404);
+        }
+
+        $idea->delete();
+
+        return redirect()->to('/ideas');
     }
 }

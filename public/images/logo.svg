@@ -1,0 +1,20 @@
+<!-- filepath: public/images/logo.svg -->
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="40" fill="black"/>
+  <g>
+    <!-- Interlocking circle motif -->
+    <g transform="translate(16,20)">
+      <circle cx="0" cy="0" r="10" fill="#fff"/>
+      <path d="M0,-10 A10,10 0 0 1 10,0" stroke="#6366F1" stroke-width="2" fill="none"/>
+      <path d="M10,0 A10,10 0 0 1 0,10" stroke="#6366F1" stroke-width="2" fill="none"/>
+      <path d="M0,10 A10,10 0 0 1 -10,0" stroke="#6366F1" stroke-width="2" fill="none"/>
+      <path d="M-10,0 A10,10 0 0 1 0,-10" stroke="#6366F1" stroke-width="2" fill="none"/>
+      <!-- Extra decorative circles for "cooler" look -->
+      <circle cx="0" cy="0" r="14" stroke="#6366F1" stroke-width="1" fill="none" opacity="0.7"/>
+      <circle cx="0" cy="0" r="18" stroke="#6366F1" stroke-width="1" fill="none" opacity="0.4"/>
+      <circle cx="0" cy="0" r="22" stroke="#6366F1" stroke-width="1" fill="none" opacity="0.2"/>
+    </g>
+    <!-- "idea" text -->
+    <text x="44" y="27" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#fff" font-weight="bold">idea</text>
+  </g>
+</svg>
