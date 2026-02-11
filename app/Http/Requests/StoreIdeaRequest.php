@@ -26,7 +26,7 @@ class StoreIdeaRequest extends FormRequest
      */
     public function rules(): array
     {
-        
+
         return [
             'title' => ['required', 'string', 'max:255'],
             'text' => ['nullable', 'string', 'max:255'],
@@ -38,6 +38,7 @@ class StoreIdeaRequest extends FormRequest
             'image' => ['nullable', 'image', 'max:2048'], // max 2MB
         ];
     }
+
     /**
      * Get custom error messages for validator errors.
      *

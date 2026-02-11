@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Models\Steps;
+declare(strict_types=1);
 
-use Illuminate\Http\Request;
+namespace App\Http\Controllers;
+
+use App\Models\Steps;
 
 class Stepcontroller extends Controller
 {
@@ -13,10 +14,7 @@ class Stepcontroller extends Controller
             'completed' => ! $step->completed,
         ]);
 
-        return back()->with('success','updated');
-
-
-
+        return back()->with('success', 'updated');
 
     }
     //
